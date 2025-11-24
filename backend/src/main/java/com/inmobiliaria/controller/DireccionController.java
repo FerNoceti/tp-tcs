@@ -28,6 +28,9 @@ public class DireccionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) { service.delete(id); return ResponseEntity.noContent().build(); }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Direccion> update(@PathVariable Long id, @RequestBody Direccion d) { return ResponseEntity.ok(service.update(id, d)); }
+
     // Endpoints por propiedad (coinciden con el frontend)
     @GetMapping("/propiedades/{idPropiedad}/direccion")
     public ResponseEntity<Direccion> getByProperty(@PathVariable Long idPropiedad) { return ResponseEntity.ok(service.getByProperty(idPropiedad)); }

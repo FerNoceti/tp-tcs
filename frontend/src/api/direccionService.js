@@ -13,6 +13,8 @@ const direccionService = {
 
   create: (data) => apiClient.post("/direcciones", data),
 
+  updateById: (id, data) => apiClient.put(`/direcciones/${id}`, data),
+
   delete: (id) => apiClient.delete(`/direcciones/${id}`),
 };
 

@@ -44,4 +44,14 @@ public class DireccionService {
         propiedadRepository.save(p);
         return saved;
     }
+
+    public Direccion update(Long id, Direccion data) {
+        Direccion d = findById(id);
+        d.setCalle(data.getCalle());
+        d.setNumero(data.getNumero());
+        d.setCiudad(data.getCiudad());
+        d.setProvincia(data.getProvincia());
+        d.setCodigoPostal(data.getCodigoPostal());
+        return direccionRepository.save(d);
+    }
 }
