@@ -1,0 +1,78 @@
+.edit-modal-dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  width: 520px;
+  max-width: 95vw;
+}
+
+.edit-modal-dialog.wide {
+  width: 600px;
+}
+
+.edit-modal-dialog.narrow {
+  width: 400px;
+}
+
+.edit-modal-form {
+  background: #fff;
+  padding: 24px;
+}
+
+.edit-modal-title {
+  margin-top: 0;
+  color: #1565C0;
+}
+
+.edit-modal-subtitle {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  color: #1565C0;
+}
+
+.edit-modal-field {
+  margin-bottom: 12px;
+}
+
+.edit-modal-label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.edit-modal-input,
+.edit-modal-select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.edit-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.edit-modal-btn-cancel {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.edit-modal-btn-save {
+  padding: 8px 16px;
+  background: #1565C0;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.edit-modal-grid-full {
+  grid-column: span 2;
+}

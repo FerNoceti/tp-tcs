@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import propiedadService from "../api/propiedadService";
 import PropiedadTable from "../components/PropiedadTable";
 import PropiedadForm from "../components/PropiedadForm";
+import "../styles/EditModal.css";
 
 const Propiedades = () => {
   const [items, setItems] = useState([]);
@@ -168,157 +169,141 @@ const Propiedades = () => {
         </DialogActions>
       </Dialog>
 
+
+
       {/* Modal de edición HTML nativo */}
-      <dialog
-        ref={editDialogRef}
-        style={{
-          border: "none",
-          borderRadius: 8,
-          padding: 0,
-          width: 600,
-          maxWidth: "95vw",
-        }}
-      >
-        <form
-          onSubmit={handleEditSave}
-          style={{ background: "#fff", padding: 24 }}
-        >
-          <h3 style={{ marginTop: 0, color: "#1565C0" }}>Editar Propiedad</h3>
+      <dialog ref={editDialogRef} className="edit-modal-dialog wide">
+        <form onSubmit={handleEditSave} className="edit-modal-form">
+          <h3 className="edit-modal-title">Editar Propiedad</h3>
           
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div className="edit-modal-grid">
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Tipo Propiedad</label>
+              <label className="edit-modal-label">Tipo Propiedad</label>
               <input
                 type="text"
                 name="tipo_propiedad"
                 value={editData.tipo_propiedad}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Superficie</label>
+              <label className="edit-modal-label">Superficie</label>
               <input
                 type="number"
                 name="superficie"
                 value={editData.superficie}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Ambientes</label>
+              <label className="edit-modal-label">Ambientes</label>
               <input
                 type="number"
                 name="ambientes"
                 value={editData.ambientes}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Dormitorios</label>
+              <label className="edit-modal-label">Dormitorios</label>
               <input
                 type="number"
                 name="dormitorios"
                 value={editData.dormitorios}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Baños</label>
+              <label className="edit-modal-label">Baños</label>
               <input
                 type="number"
                 name="banos"
                 value={editData.banos}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Cocheras</label>
+              <label className="edit-modal-label">Cocheras</label>
               <input
                 type="number"
                 name="cocheras"
                 value={editData.cocheras}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
           </div>
 
-          <h4 style={{ marginTop: 16, marginBottom: 8, color: "#1565C0" }}>Dirección</h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <div style={{ gridColumn: 'span 2' }}>
-              <label style={{ display: "block", marginBottom: 4 }}>Calle</label>
+          <h4 className="edit-modal-subtitle">Dirección</h4>
+          <div className="edit-modal-grid">
+            <div className="edit-modal-grid-full">
+              <label className="edit-modal-label">Calle</label>
               <input
                 type="text"
                 name="calle"
                 value={editData.calle}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Número</label>
+              <label className="edit-modal-label">Número</label>
               <input
                 type="text"
                 name="numero"
                 value={editData.numero}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Código Postal</label>
+              <label className="edit-modal-label">Código Postal</label>
               <input
                 type="text"
                 name="codigo_postal"
                 value={editData.codigo_postal}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Ciudad</label>
+              <label className="edit-modal-label">Ciudad</label>
               <input
                 type="text"
                 name="ciudad"
                 value={editData.ciudad}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
             <div>
-              <label style={{ display: "block", marginBottom: 4 }}>Provincia</label>
+              <label className="edit-modal-label">Provincia</label>
               <input
                 type="text"
                 name="provincia"
                 value={editData.provincia}
                 onChange={handleEditChange}
-                style={{ width: "100%", padding: 8 }}
+                className="edit-modal-input"
               />
             </div>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 24 }}>
+          <div className="edit-modal-actions">
             <button
               type="button"
               onClick={handleEditClose}
-              style={{ padding: "8px 16px" }}
+              className="edit-modal-btn-cancel"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              style={{
-                padding: "8px 16px",
-                background: "#1565C0",
-                color: "#fff",
-                border: "none",
-                borderRadius: 4,
-              }}
+              className="edit-modal-btn-save"
             >
               Guardar
             </button>

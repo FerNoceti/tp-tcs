@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import direccionService from "../api/direccionService";
 import DireccionTable from "../components/DireccionTable";
 import DireccionForm from "../components/DireccionForm";
+import "../styles/EditModal.css";
 
 const Direcciones = () => {
   const [items, setItems] = useState([]);
@@ -146,91 +147,75 @@ const Direcciones = () => {
         </DialogActions>
       </Dialog>
 
+
+
       {/* Modal de edición HTML nativo */}
-      <dialog
-        ref={editDialogRef}
-        style={{
-          border: "none",
-          borderRadius: 8,
-          padding: 0,
-          width: 400,
-          maxWidth: "95vw",
-        }}
-      >
-        <form
-          onSubmit={handleEditSave}
-          style={{ background: "#fff", padding: 24 }}
-        >
-          <h3 style={{ marginTop: 0, color: "#1565C0" }}>Editar Dirección</h3>
+      <dialog ref={editDialogRef} className="edit-modal-dialog narrow">
+        <form onSubmit={handleEditSave} className="edit-modal-form">
+          <h3 className="edit-modal-title">Editar Dirección</h3>
           
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Calle</label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Calle</label>
             <input
               type="text"
               name="calle"
               value={editData.calle}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-input"
             />
           </div>
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Número</label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Número</label>
             <input
               type="text"
               name="numero"
               value={editData.numero}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-input"
             />
           </div>
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Ciudad</label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Ciudad</label>
             <input
               type="text"
               name="ciudad"
               value={editData.ciudad}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-input"
             />
           </div>
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Provincia</label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Provincia</label>
             <input
               type="text"
               name="provincia"
               value={editData.provincia}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-input"
             />
           </div>
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Código Postal</label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Código Postal</label>
             <input
               type="text"
               name="codigo_postal"
               value={editData.codigo_postal}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-input"
             />
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 24 }}>
+          <div className="edit-modal-actions">
             <button
               type="button"
               onClick={handleEditClose}
-              style={{ padding: "8px 16px" }}
+              className="edit-modal-btn-cancel"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              style={{
-                padding: "8px 16px",
-                background: "#1565C0",
-                color: "#fff",
-                border: "none",
-                borderRadius: 4,
-              }}
+              className="edit-modal-btn-save"
             >
               Guardar
             </button>

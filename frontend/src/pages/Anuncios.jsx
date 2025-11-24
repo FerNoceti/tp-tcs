@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import anuncioService from "../api/anuncioService";
 import AnuncioTable from "../components/AnuncioTable";
 import AnuncioForm from "../components/AnuncioForm";
+import "../styles/EditModal.css";
 
 // Página de Anuncios: lista y acciones
 const Anuncios = () => {
@@ -159,64 +160,48 @@ const Anuncios = () => {
         </DialogActions>
       </Dialog>
 
+
+
       {/* Modal de edición HTML nativo */}
-      <dialog
-        ref={editDialogRef}
-        style={{
-          border: "none",
-          borderRadius: 8,
-          padding: 0,
-          width: 400,
-          maxWidth: "95vw",
-        }}
-      >
-        <form
-          onSubmit={handleEditSave}
-          style={{ background: "#fff", padding: 24 }}
-        >
-          <h3 style={{ marginTop: 0, color: "#1565C0" }}>Editar Anuncio</h3>
+      <dialog ref={editDialogRef} className="edit-modal-dialog narrow">
+        <form onSubmit={handleEditSave} className="edit-modal-form">
+          <h3 className="edit-modal-title">Editar Anuncio</h3>
           
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Tipo de Anuncio</label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Tipo de Anuncio</label>
             <select
               name="tipo_anuncio"
               value={editData.tipo_anuncio}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-select"
             >
               <option value="VENTA">Venta</option>
               <option value="ALQUILER">Alquiler</option>
             </select>
           </div>
 
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Precio</label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Precio</label>
             <input
               type="number"
               name="precio_anuncio"
               value={editData.precio_anuncio}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-input"
             />
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 24 }}>
+          <div className="edit-modal-actions">
             <button
               type="button"
               onClick={handleEditClose}
-              style={{ padding: "8px 16px" }}
+              className="edit-modal-btn-cancel"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              style={{
-                padding: "8px 16px",
-                background: "#1565C0",
-                color: "#fff",
-                border: "none",
-                borderRadius: 4,
-              }}
+              className="edit-modal-btn-save"
             >
               Guardar
             </button>

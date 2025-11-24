@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import duenoService from "../api/duenoService";
 import DuenoTable from "../components/DuenoTable";
 import DuenoForm from "../components/DuenoForm";
+import "../styles/EditModal.css";
 
 const Duenos = () => {
   const [items, setItems] = useState([]);
@@ -165,29 +166,19 @@ const Duenos = () => {
           <Button onClick={() => setOpenForm(false)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
+
+
       {/* Modal de edición HTML nativo */}
-      <dialog
-        ref={editDialogRef}
-        style={{
-          border: "none",
-          borderRadius: 8,
-          padding: 0,
-          width: 520,
-          maxWidth: "95vw",
-        }}
-      >
-        <form
-          onSubmit={handleEditSave}
-          style={{ background: "#fff", padding: 24 }}
-        >
-          <h3 style={{ marginTop: 0, color: "#1565C0" }}>Editar Dueño</h3>
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Tipo</label>
+      <dialog ref={editDialogRef} className="edit-modal-dialog">
+        <form onSubmit={handleEditSave} className="edit-modal-form">
+          <h3 className="edit-modal-title">Editar Dueño</h3>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Tipo</label>
             <select
               name="tipo"
               value={editData.tipo}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-select"
             >
               <option value="FISICO">Persona Física</option>
               <option value="JURIDICO">Persona Jurídica</option>
@@ -196,110 +187,94 @@ const Duenos = () => {
 
           {editData.tipo === "FISICO" ? (
             <>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: "block", marginBottom: 4 }}>
-                  Nombre
-                </label>
+              <div className="edit-modal-field">
+                <label className="edit-modal-label">Nombre</label>
                 <input
                   type="text"
                   name="nombre"
                   value={editData.nombre}
                   onChange={handleEditChange}
-                  style={{ width: "100%", padding: 8 }}
+                  className="edit-modal-input"
                 />
               </div>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: "block", marginBottom: 4 }}>
-                  Apellido
-                </label>
+              <div className="edit-modal-field">
+                <label className="edit-modal-label">Apellido</label>
                 <input
                   type="text"
                   name="apellido"
                   value={editData.apellido}
                   onChange={handleEditChange}
-                  style={{ width: "100%", padding: 8 }}
+                  className="edit-modal-input"
                 />
               </div>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: "block", marginBottom: 4 }}>DNI</label>
+              <div className="edit-modal-field">
+                <label className="edit-modal-label">DNI</label>
                 <input
                   type="text"
                   name="dni"
                   value={editData.dni}
                   onChange={handleEditChange}
-                  style={{ width: "100%", padding: 8 }}
+                  className="edit-modal-input"
                 />
               </div>
             </>
           ) : (
             <>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: "block", marginBottom: 4 }}>
-                  Razón Social
-                </label>
+              <div className="edit-modal-field">
+                <label className="edit-modal-label">Razón Social</label>
                 <input
                   type="text"
                   name="razonSocial"
                   value={editData.razonSocial}
                   onChange={handleEditChange}
-                  style={{ width: "100%", padding: 8 }}
+                  className="edit-modal-input"
                 />
               </div>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: "block", marginBottom: 4 }}>
-                  CUIT
-                </label>
+              <div className="edit-modal-field">
+                <label className="edit-modal-label">CUIT</label>
                 <input
                   type="text"
                   name="cuit"
                   value={editData.cuit}
                   onChange={handleEditChange}
-                  style={{ width: "100%", padding: 8 }}
+                  className="edit-modal-input"
                 />
               </div>
             </>
           )}
 
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>Email</label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Email</label>
             <input
               type="email"
               name="email"
               value={editData.email}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-input"
             />
           </div>
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", marginBottom: 4 }}>
-              Teléfono
-            </label>
+          <div className="edit-modal-field">
+            <label className="edit-modal-label">Teléfono</label>
             <input
               type="text"
               name="telefono"
               value={editData.telefono}
               onChange={handleEditChange}
-              style={{ width: "100%", padding: 8 }}
+              className="edit-modal-input"
             />
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+          <div className="edit-modal-actions">
             <button
               type="button"
               onClick={handleEditClose}
-              style={{ padding: "8px 16px" }}
+              className="edit-modal-btn-cancel"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              style={{
-                padding: "8px 16px",
-                background: "#1565C0",
-                color: "#fff",
-                border: "none",
-                borderRadius: 4,
-              }}
+              className="edit-modal-btn-save"
             >
               Guardar
             </button>
