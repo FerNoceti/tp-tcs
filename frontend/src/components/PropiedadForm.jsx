@@ -5,7 +5,11 @@ import propiedadService from "../api/propiedadService";
 // Formulario para crear o editar una propiedad
 const PropiedadForm = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
-    direccion: "",
+    calle: "",
+    numero: "",
+    ciudad: "",
+    provincia: "",
+    codigo_postal: "",
     dormitorios: "",
     ambientes: "",
     superficie: "",
@@ -18,7 +22,20 @@ const PropiedadForm = ({ onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await propiedadService.create(formData);
+      const payload = {
+        dormitorios: parseInt(formData.dormitorios) || 0,
+        ambientes: parseInt(formData.ambientes) || 0,
+        superficie: parseFloat(formData.superficie) || 0.0,
+        dueno: { id: formData.dueno_id },
+        direccion: {
+          calle: formData.calle,
+          numero: formData.numero,
+          ciudad: formData.ciudad,
+          provincia: formData.provincia,
+          codigo_postal: formData.codigo_postal,
+        },
+      };
+      await propiedadService.create(payload);
       onSuccess?.();
     } catch (err) {
       console.error("Error al crear propiedad:", err);
@@ -40,15 +57,50 @@ const PropiedadForm = ({ onSuccess }) => {
       <Typography variant="h6" color="primary" gutterBottom>
         Crear Propiedad
       </Typography>
+      
+      <Typography variant="subtitle1" sx={{ mt: 2 }}>Dirección</Typography>
       <TextField
-        label="Dirección"
-        name="direccion"
-        value={formData.direccion}
+        label="Calle"
+        name="calle"
+        value={formData.calle}
         onChange={handleChange}
         fullWidth
-        required
-        margin="normal"
+        margin="dense"
       />
+      <TextField
+        label="Número"
+        name="numero"
+        value={formData.numero}
+        onChange={handleChange}
+        fullWidth
+        margin="dense"
+      />
+      <TextField
+        label="Ciudad"
+        name="ciudad"
+        value={formData.ciudad}
+        onChange={handleChange}
+        fullWidth
+        margin="dense"
+      />
+      <TextField
+        label="Provincia"
+        name="provincia"
+        value={formData.provincia}
+        onChange={handleChange}
+        fullWidth
+        margin="dense"
+      />
+      <TextField
+        label="Código Postal"
+        name="codigo_postal"
+        value={formData.codigo_postal}
+        onChange={handleChange}
+        fullWidth
+        margin="dense"
+      />
+
+      <Typography variant="subtitle1" sx={{ mt: 2 }}>Detalles</Typography>
       <TextField
         label="Dormitorios"
         name="dormitorios"
@@ -56,7 +108,7 @@ const PropiedadForm = ({ onSuccess }) => {
         value={formData.dormitorios}
         onChange={handleChange}
         fullWidth
-        margin="normal"
+        margin="dense"
       />
       <TextField
         label="Ambientes"
@@ -65,7 +117,7 @@ const PropiedadForm = ({ onSuccess }) => {
         value={formData.ambientes}
         onChange={handleChange}
         fullWidth
-        margin="normal"
+        margin="dense"
       />
       <TextField
         label="Superficie (m²)"
@@ -74,7 +126,7 @@ const PropiedadForm = ({ onSuccess }) => {
         value={formData.superficie}
         onChange={handleChange}
         fullWidth
-        margin="normal"
+        margin="dense"
       />
       <TextField
         label="ID Dueño"
@@ -82,7 +134,8 @@ const PropiedadForm = ({ onSuccess }) => {
         value={formData.dueno_id}
         onChange={handleChange}
         fullWidth
-        margin="normal"
+        required
+        margin="dense"
       />
       <Button
         type="submit"

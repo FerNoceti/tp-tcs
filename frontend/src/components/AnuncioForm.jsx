@@ -7,7 +7,7 @@ const AnuncioForm = ({ onSuccess }) => {
   // Estado del formulario
   const [formData, setFormData] = useState({
     id_propiedad: "",
-    tipo_anuncio: "Venta",
+    tipo_anuncio: "VENTA",
     precio_anuncio: "",
   });
 
@@ -62,8 +62,8 @@ const AnuncioForm = ({ onSuccess }) => {
         fullWidth
         margin="normal"
       >
-        <MenuItem value="Venta">Venta</MenuItem>
-        <MenuItem value="Alquiler">Alquiler</MenuItem>
+        <MenuItem value="VENTA">Venta</MenuItem>
+        <MenuItem value="ALQUILER">Alquiler</MenuItem>
       </TextField>
 
       <TextField

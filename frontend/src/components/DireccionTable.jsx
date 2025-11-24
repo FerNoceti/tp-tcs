@@ -13,7 +13,6 @@ const DireccionTable = ({ items = [], onEdit, onDelete }) => {
             <TableCell>Número</TableCell>
             <TableCell>Ciudad</TableCell>
             <TableCell>Provincia</TableCell>
-            <TableCell>País</TableCell>
             <TableCell align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
@@ -25,7 +24,6 @@ const DireccionTable = ({ items = [], onEdit, onDelete }) => {
               <TableCell>{row.numero}</TableCell>
               <TableCell>{row.ciudad}</TableCell>
               <TableCell>{row.provincia}</TableCell>
-              <TableCell>{row.pais}</TableCell>
               <TableCell align="right">
                 <div className="table-actions">
                   <button className="btn btn-outline" onClick={() => onEdit?.(row)}>Editar</button>

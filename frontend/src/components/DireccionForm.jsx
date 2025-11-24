@@ -9,7 +9,7 @@ const DireccionForm = ({ propertyId, onSuccess }) => {
     numero: "",
     ciudad: "",
     provincia: "",
-    pais: "",
+    codigo_postal: "",
   });
 
   const handleChange = (e) =>
@@ -77,9 +77,9 @@ const DireccionForm = ({ propertyId, onSuccess }) => {
         margin="normal"
       />
       <TextField
-        label="País"
-        name="pais"
-        value={formData.pais}
+        label="Código Postal"
+        name="codigo_postal"
+        value={formData.codigo_postal}
         onChange={handleChange}
         fullWidth
         margin="normal"

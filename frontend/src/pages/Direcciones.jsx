@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import Swal from "sweetalert2";
 import direccionService from "../api/direccionService";
@@ -10,6 +10,15 @@ const Direcciones = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [openForm, setOpenForm] = useState(false);
+  const editDialogRef = useRef(null);
+  const [editItem, setEditItem] = useState(null);
+  const [editData, setEditData] = useState({
+    calle: "",
+    numero: "",
+    ciudad: "",
+    provincia: "",
+    codigo_postal: "",
+  });
 
   const loadData = async () => {
     setLoading(true);
@@ -32,6 +41,7 @@ const Direcciones = () => {
   useEffect(() => {
     loadData();
   }, []);
+
   const handleDelete = async (id) => {
     const { isConfirmed } = await Swal.fire({
       title: "¿Eliminar dirección?",
@@ -51,6 +61,51 @@ const Direcciones = () => {
     }
   };
 
+  const handleEditOpen = (row) => {
+    setEditItem(row);
+    setEditData({
+      calle: row.calle || "",
+      numero: row.numero || "",
+      ciudad: row.ciudad || "",
+      provincia: row.provincia || "",
+      codigo_postal: row.codigo_postal || "",
+    });
+    setTimeout(() => {
+      editDialogRef.current?.showModal();
+    }, 0);
+  };
+
+  const handleEditClose = () => {
+    editDialogRef.current?.close();
+    setEditItem(null);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEditSave = async (e) => {
+    e.preventDefault();
+    if (!editItem) return;
+    try {
+      const payload = {
+        ...editItem,
+        calle: editData.calle,
+        numero: editData.numero,
+        ciudad: editData.ciudad,
+        provincia: editData.provincia,
+        codigo_postal: editData.codigo_postal,
+      };
+      await direccionService.updateById(editItem.id, payload);
+      handleEditClose();
+      await loadData();
+    } catch (err) {
+      console.error("Error al editar dirección:", err);
+      Swal.fire("Error", "No se pudo editar la dirección", "error");
+    }
+  };
+
   return (
     <Box>
       <div className="page-header">
@@ -64,7 +119,11 @@ const Direcciones = () => {
       {loading ? (
         <div>Cargando...</div>
       ) : (
-        <DireccionTable items={items} onDelete={handleDelete} />
+        <DireccionTable
+          items={items}
+          onEdit={handleEditOpen}
+          onDelete={handleDelete}
+        />
       )}
 
       <Dialog
@@ -86,6 +145,98 @@ const Direcciones = () => {
           <Button onClick={() => setOpenForm(false)}>Cerrar</Button>
         </DialogActions>
       </Dialog>
+
+      {/* Modal de edición HTML nativo */}
+      <dialog
+        ref={editDialogRef}
+        style={{
+          border: "none",
+          borderRadius: 8,
+          padding: 0,
+          width: 400,
+          maxWidth: "95vw",
+        }}
+      >
+        <form
+          onSubmit={handleEditSave}
+          style={{ background: "#fff", padding: 24 }}
+        >
+          <h3 style={{ marginTop: 0, color: "#1565C0" }}>Editar Dirección</h3>
+          
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ display: "block", marginBottom: 4 }}>Calle</label>
+            <input
+              type="text"
+              name="calle"
+              value={editData.calle}
+              onChange={handleEditChange}
+              style={{ width: "100%", padding: 8 }}
+            />
+          </div>
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ display: "block", marginBottom: 4 }}>Número</label>
+            <input
+              type="text"
+              name="numero"
+              value={editData.numero}
+              onChange={handleEditChange}
+              style={{ width: "100%", padding: 8 }}
+            />
+          </div>
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ display: "block", marginBottom: 4 }}>Ciudad</label>
+            <input
+              type="text"
+              name="ciudad"
+              value={editData.ciudad}
+              onChange={handleEditChange}
+              style={{ width: "100%", padding: 8 }}
+            />
+          </div>
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ display: "block", marginBottom: 4 }}>Provincia</label>
+            <input
+              type="text"
+              name="provincia"
+              value={editData.provincia}
+              onChange={handleEditChange}
+              style={{ width: "100%", padding: 8 }}
+            />
+          </div>
+          <div style={{ marginBottom: 12 }}>
+            <label style={{ display: "block", marginBottom: 4 }}>Código Postal</label>
+            <input
+              type="text"
+              name="codigo_postal"
+              value={editData.codigo_postal}
+              onChange={handleEditChange}
+              style={{ width: "100%", padding: 8 }}
+            />
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 24 }}>
+            <button
+              type="button"
+              onClick={handleEditClose}
+              style={{ padding: "8px 16px" }}
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              style={{
+                padding: "8px 16px",
+                background: "#1565C0",
+                color: "#fff",
+                border: "none",
+                borderRadius: 4,
+              }}
+            >
+              Guardar
+            </button>
+          </div>
+        </form>
+      </dialog>
     </Box>
   );
 };

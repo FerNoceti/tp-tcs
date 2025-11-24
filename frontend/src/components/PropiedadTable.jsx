@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 // Tabla para listar propiedades
 const PropiedadTable = ({ items = [], onEdit, onDelete }) => {
+  const navigate = useNavigate();
   const rows = Array.isArray(items) ? items : [];
   return (
     <TableContainer component={Paper} className="table-container">
@@ -33,6 +35,7 @@ const PropiedadTable = ({ items = [], onEdit, onDelete }) => {
               <TableCell>{row.dueno?.id ?? row.dueno_id ?? "-"}</TableCell>
               <TableCell align="right">
                 <div className="table-actions">
+                  <button className="btn btn-info" onClick={() => navigate(`/propiedades/${row.id}`)}>Ver Detalle</button>
                   <button className="btn btn-outline" onClick={() => onEdit?.(row)}>Editar</button>
                   <button className="btn btn-danger" onClick={() => onDelete?.(row.id)}>Eliminar</button>
                 </div>

@@ -6,11 +6,14 @@ import Propiedades from '../pages/Propiedades';
 import Duenos from '../pages/Duenos';
 import Direcciones from '../pages/Direcciones';
 
+import PropiedadDetalle from '../pages/PropiedadDetalle';
+
 const AppRouter = () => (
   <Routes>
     <Route path="/" element={<Home />} />
     <Route path="/anuncios" element={<Anuncios />} />
     <Route path="/propiedades" element={<Propiedades />} />
+    <Route path="/propiedades/:id" element={<PropiedadDetalle />} />
     <Route path="/duenos" element={<Duenos />} />
     <Route path="/direcciones" element={<Direcciones />} />
   </Routes>
