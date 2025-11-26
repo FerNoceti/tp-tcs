@@ -1,7 +1,6 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
-// Tabla para listar direcciones
 const DireccionTable = ({ items = [], onEdit, onDelete }) => {
   return (
     <TableContainer component={Paper} className="table-container">

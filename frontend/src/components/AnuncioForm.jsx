@@ -1,26 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, TextField, MenuItem, Box, Typography } from "@mui/material";
 import anuncioService from "../api/anuncioService";
+import propiedadService from "../api/propiedadService";
 
-// Formulario para crear o editar un anuncio
 const AnuncioForm = ({ onSuccess }) => {
-  // Estado del formulario
   const [formData, setFormData] = useState({
     id_propiedad: "",
     tipo_anuncio: "VENTA",
     precio_anuncio: "",
   });
 
-  // Maneja los cambios de los inputs
+  const [propiedades, setPropiedades] = useState([]);
+
+  useEffect(() => {
+    const loadPropiedades = async () => {
+      try {
+        const res = await propiedadService.getAll();
+        setPropiedades(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error("Error al cargar propiedades:", err);
+      }
+    };
+    loadPropiedades();
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Envía los datos al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await anuncioService.create(formData);
+      const payload = {
+        propiedad: { id: formData.id_propiedad },
+        tipo_anuncio: formData.tipo_anuncio,
+        precio_anuncio: parseFloat(formData.precio_anuncio) || 0,
+      };
+      await anuncioService.create(payload);
       if (onSuccess) onSuccess();
     } catch (error) {
       console.error("Error al crear anuncio:", error);
@@ -44,14 +60,23 @@ const AnuncioForm = ({ onSuccess }) => {
       </Typography>
 
       <TextField
-        label="ID Propiedad"
+        select
+        label="Propiedad"
         name="id_propiedad"
         value={formData.id_propiedad}
         onChange={handleChange}
         fullWidth
         required
         margin="normal"
-      />
+      >
+        {propiedades.map((prop) => (
+          <MenuItem key={prop.id} value={prop.id}>
+            {prop.direccion 
+              ? `${prop.direccion.calle} ${prop.direccion.numero}, ${prop.direccion.ciudad} (ID: ${prop.id})` 
+              : `Propiedad #${prop.id}`}
+          </MenuItem>
+        ))}
+      </TextField>
 
       <TextField
         select

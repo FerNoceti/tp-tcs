@@ -1,7 +1,6 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
-// Tabla para listar anuncios
 const AnuncioTable = ({
   items = [],
   onPublish,

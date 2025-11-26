@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import Swal from "sweetalert2";
 import propiedadService from "../api/propiedadService";
+import direccionService from "../api/direccionService";
 import PropiedadTable from "../components/PropiedadTable";
 import PropiedadForm from "../components/PropiedadForm";
 import "../styles/EditModal.css";
@@ -11,20 +12,17 @@ const Propiedades = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [openForm, setOpenForm] = useState(false);
+  const [direcciones, setDirecciones] = useState([]);
   const editDialogRef = useRef(null);
   const [editItem, setEditItem] = useState(null);
   const [editData, setEditData] = useState({
-    tipoPropiedad: "",
+    tipo_propiedad: "",
     dormitorios: "",
     ambientes: "",
     banos: "",
     cocheras: "",
     superficie: "",
-    calle: "",
-    numero: "",
-    ciudad: "",
-    provincia: "",
-    codigoPostal: "",
+    direccion_id: "",
   });
 
   const loadData = async () => {
@@ -47,6 +45,15 @@ const Propiedades = () => {
 
   useEffect(() => {
     loadData();
+    const loadDirecciones = async () => {
+      try {
+        const res = await direccionService.getAll();
+        setDirecciones(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error("Error al cargar direcciones:", err);
+      }
+    };
+    loadDirecciones();
   }, []);
 
   const handleDelete = async (id) => {
@@ -77,11 +84,7 @@ const Propiedades = () => {
       banos: row.banos || "",
       cocheras: row.cocheras || "",
       superficie: row.superficie || "",
-      calle: row.direccion?.calle || "",
-      numero: row.direccion?.numero || "",
-      ciudad: row.direccion?.ciudad || "",
-      provincia: row.direccion?.provincia || "",
-      codigo_postal: row.direccion?.codigo_postal || "",
+      direccion_id: row.direccion?.id || "",
     };
     setEditData(base);
     setTimeout(() => {
@@ -111,14 +114,7 @@ const Propiedades = () => {
         banos: parseInt(editData.banos) || 0,
         cocheras: parseInt(editData.cocheras) || 0,
         superficie: parseFloat(editData.superficie) || 0.0,
-        direccion: {
-          ...editItem.direccion,
-          calle: editData.calle,
-          numero: editData.numero,
-          ciudad: editData.ciudad,
-          provincia: editData.provincia,
-          codigo_postal: editData.codigo_postal,
-        },
+        direccion: { id: editData.direccion_id },
       };
       await propiedadService.update(editItem.id, payload);
       handleEditClose();
@@ -169,10 +165,7 @@ const Propiedades = () => {
         </DialogActions>
       </Dialog>
 
-
-
-      {/* Modal de edición HTML nativo */}
-      <dialog ref={editDialogRef} className="edit-modal-dialog wide">
+      <dialog ref={editDialogRef} className="edit-modal-dialog">
         <form onSubmit={handleEditSave} className="edit-modal-form">
           <h3 className="edit-modal-title">Editar Propiedad</h3>
           
@@ -242,54 +235,21 @@ const Propiedades = () => {
           <h4 className="edit-modal-subtitle">Dirección</h4>
           <div className="edit-modal-grid">
             <div className="edit-modal-grid-full">
-              <label className="edit-modal-label">Calle</label>
-              <input
-                type="text"
-                name="calle"
-                value={editData.calle}
+              <label className="edit-modal-label">Seleccionar Dirección</label>
+              <select
+                name="direccion_id"
+                value={editData.direccion_id}
                 onChange={handleEditChange}
                 className="edit-modal-input"
-              />
-            </div>
-            <div>
-              <label className="edit-modal-label">Número</label>
-              <input
-                type="text"
-                name="numero"
-                value={editData.numero}
-                onChange={handleEditChange}
-                className="edit-modal-input"
-              />
-            </div>
-            <div>
-              <label className="edit-modal-label">Código Postal</label>
-              <input
-                type="text"
-                name="codigo_postal"
-                value={editData.codigo_postal}
-                onChange={handleEditChange}
-                className="edit-modal-input"
-              />
-            </div>
-            <div>
-              <label className="edit-modal-label">Ciudad</label>
-              <input
-                type="text"
-                name="ciudad"
-                value={editData.ciudad}
-                onChange={handleEditChange}
-                className="edit-modal-input"
-              />
-            </div>
-            <div>
-              <label className="edit-modal-label">Provincia</label>
-              <input
-                type="text"
-                name="provincia"
-                value={editData.provincia}
-                onChange={handleEditChange}
-                className="edit-modal-input"
-              />
+                required
+              >
+                <option value="">-- Seleccione una dirección --</option>
+                {direcciones.map((dir) => (
+                  <option key={dir.id} value={dir.id}>
+                    {dir.calle} {dir.numero}, {dir.ciudad}, {dir.provincia}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 

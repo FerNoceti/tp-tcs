@@ -6,7 +6,6 @@ import AnuncioTable from "../components/AnuncioTable";
 import AnuncioForm from "../components/AnuncioForm";
 import "../styles/EditModal.css";
 
-// Página de Anuncios: lista y acciones
 const Anuncios = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -160,9 +159,6 @@ const Anuncios = () => {
         </DialogActions>
       </Dialog>
 
-
-
-      {/* Modal de edición HTML nativo */}
       <dialog ref={editDialogRef} className="edit-modal-dialog narrow">
         <form onSubmit={handleEditSave} className="edit-modal-form">
           <h3 className="edit-modal-title">Editar Anuncio</h3>

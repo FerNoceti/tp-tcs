@@ -1,20 +1,39 @@
-import React, { useState } from "react";
-import { Box, Typography, TextField, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Typography, TextField, Button, MenuItem } from "@mui/material";
 import propiedadService from "../api/propiedadService";
+import direccionService from "../api/direccionService";
+import duenoService from "../api/duenoService";
 
-// Formulario para crear o editar una propiedad
 const PropiedadForm = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
-    calle: "",
-    numero: "",
-    ciudad: "",
-    provincia: "",
-    codigo_postal: "",
+    direccion_id: "",
+    tipo_propiedad: "",
     dormitorios: "",
     ambientes: "",
+    banos: "",
+    cocheras: "",
     superficie: "",
     dueno_id: "",
   });
+
+  const [direcciones, setDirecciones] = useState([]);
+  const [duenos, setDuenos] = useState([]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [resDirecciones, resDuenos] = await Promise.all([
+          direccionService.getAll(),
+          duenoService.getAll(),
+        ]);
+        setDirecciones(Array.isArray(resDirecciones.data) ? resDirecciones.data : []);
+        setDuenos(Array.isArray(resDuenos.data) ? resDuenos.data : []);
+      } catch (err) {
+        console.error("Error al cargar datos:", err);
+      }
+    };
+    loadData();
+  }, []);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,18 +41,20 @@ const PropiedadForm = ({ onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const selectedDueno = duenos.find(d => d.id === formData.dueno_id);
+      
       const payload = {
+        tipo_propiedad: formData.tipo_propiedad,
         dormitorios: parseInt(formData.dormitorios) || 0,
         ambientes: parseInt(formData.ambientes) || 0,
+        banos: parseInt(formData.banos) || 0,
+        cocheras: parseInt(formData.cocheras) || 0,
         superficie: parseFloat(formData.superficie) || 0.0,
-        dueno: { id: formData.dueno_id },
-        direccion: {
-          calle: formData.calle,
-          numero: formData.numero,
-          ciudad: formData.ciudad,
-          provincia: formData.provincia,
-          codigo_postal: formData.codigo_postal,
+        dueno: { 
+          id: formData.dueno_id,
+          tipo: selectedDueno?.tipo 
         },
+        direccion: { id: formData.direccion_id },
       };
       await propiedadService.create(payload);
       onSuccess?.();
@@ -58,49 +79,55 @@ const PropiedadForm = ({ onSuccess }) => {
         Crear Propiedad
       </Typography>
       
-      <Typography variant="subtitle1" sx={{ mt: 2 }}>Dirección</Typography>
       <TextField
-        label="Calle"
-        name="calle"
-        value={formData.calle}
+        select
+        label="Dirección"
+        name="direccion_id"
+        value={formData.direccion_id}
         onChange={handleChange}
         fullWidth
-        margin="dense"
-      />
-      <TextField
-        label="Número"
-        name="numero"
-        value={formData.numero}
-        onChange={handleChange}
-        fullWidth
-        margin="dense"
-      />
-      <TextField
-        label="Ciudad"
-        name="ciudad"
-        value={formData.ciudad}
-        onChange={handleChange}
-        fullWidth
-        margin="dense"
-      />
-      <TextField
-        label="Provincia"
-        name="provincia"
-        value={formData.provincia}
-        onChange={handleChange}
-        fullWidth
-        margin="dense"
-      />
-      <TextField
-        label="Código Postal"
-        name="codigo_postal"
-        value={formData.codigo_postal}
-        onChange={handleChange}
-        fullWidth
-        margin="dense"
-      />
+        required
+        margin="normal"
+      >
+        {direcciones.map((dir) => (
+          <MenuItem key={dir.id} value={dir.id}>
+            {dir.calle} {dir.numero}, {dir.ciudad}
+          </MenuItem>
+        ))}
+      </TextField>
 
-      <Typography variant="subtitle1" sx={{ mt: 2 }}>Detalles</Typography>
+      <TextField
+        select
+        label="Dueño"
+        name="dueno_id"
+        value={formData.dueno_id}
+        onChange={handleChange}
+        fullWidth
+        required
+        margin="normal"
+      >
+        {duenos.map((dueno) => (
+          <MenuItem key={dueno.id} value={dueno.id}>
+            {dueno.tipo === "FISICO" 
+              ? `${dueno.nombre} ${dueno.apellido}` 
+              : dueno.razon_social || dueno.razonSocial}
+          </MenuItem>
+        ))}
+      </TextField>
+
+      <Typography variant="subtitle1" sx={{ mt: 2 }}>Detalles de la Propiedad</Typography>
+      
+      <TextField
+        label="Tipo de Propiedad"
+        name="tipo_propiedad"
+        value={formData.tipo_propiedad}
+        onChange={handleChange}
+        fullWidth
+        required
+        margin="dense"
+        placeholder="Ej: Casa, Departamento, Terreno"
+      />
+      
       <TextField
         label="Dormitorios"
         name="dormitorios"
@@ -120,21 +147,30 @@ const PropiedadForm = ({ onSuccess }) => {
         margin="dense"
       />
       <TextField
+        label="Baños"
+        name="banos"
+        type="number"
+        value={formData.banos}
+        onChange={handleChange}
+        fullWidth
+        margin="dense"
+      />
+      <TextField
+        label="Cocheras"
+        name="cocheras"
+        type="number"
+        value={formData.cocheras}
+        onChange={handleChange}
+        fullWidth
+        margin="dense"
+      />
+      <TextField
         label="Superficie (m²)"
         name="superficie"
         type="number"
         value={formData.superficie}
         onChange={handleChange}
         fullWidth
-        margin="dense"
-      />
-      <TextField
-        label="ID Dueño"
-        name="dueno_id"
-        value={formData.dueno_id}
-        onChange={handleChange}
-        fullWidth
-        required
         margin="dense"
       />
       <Button

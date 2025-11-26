@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Box, Typography, TextField, MenuItem, Button } from "@mui/material";
 import duenoService from "../api/duenoService";
 
-// Formulario para crear un dueño (físico o jurídico)
 const DuenoForm = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
     tipo: "FISICO",

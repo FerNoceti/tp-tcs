@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
-// Tabla para listar propiedades
 const PropiedadTable = ({ items = [], onEdit, onDelete }) => {
   const navigate = useNavigate();
   const rows = Array.isArray(items) ? items : [];
@@ -15,6 +14,7 @@ const PropiedadTable = ({ items = [], onEdit, onDelete }) => {
             <TableCell>Dirección</TableCell>
             <TableCell>Dormitorios</TableCell>
             <TableCell>Ambientes</TableCell>
+            <TableCell>Cocheras</TableCell>
             <TableCell>Superficie</TableCell>
             <TableCell>Dueño</TableCell>
             <TableCell align="right">Acciones</TableCell>
@@ -31,7 +31,8 @@ const PropiedadTable = ({ items = [], onEdit, onDelete }) => {
               </TableCell>
               <TableCell>{row.dormitorios}</TableCell>
               <TableCell>{row.ambientes}</TableCell>
-              <TableCell>{row.superficie}</TableCell>
+              <TableCell>{row.cocheras ?? 0}</TableCell>
+              <TableCell>{row.superficie ? `${parseFloat(row.superficie).toFixed(2)} m²` : "-"}</TableCell>
               <TableCell>{row.dueno?.id ?? row.dueno_id ?? "-"}</TableCell>
               <TableCell align="right">
                 <div className="table-actions">
