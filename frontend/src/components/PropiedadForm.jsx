@@ -42,7 +42,8 @@ const PropiedadForm = ({ onSuccess }) => {
     e.preventDefault();
     try {
       const selectedDueno = duenos.find(d => d.id === formData.dueno_id);
-      
+      const selectedDireccion = direcciones.find(d => d.id === formData.direccion_id);
+
       const payload = {
         tipo_propiedad: formData.tipo_propiedad,
         dormitorios: parseInt(formData.dormitorios) || 0,
@@ -50,11 +51,8 @@ const PropiedadForm = ({ onSuccess }) => {
         banos: parseInt(formData.banos) || 0,
         cocheras: parseInt(formData.cocheras) || 0,
         superficie: parseFloat(formData.superficie) || 0.0,
-        dueno: { 
-          id: formData.dueno_id,
-          tipo: selectedDueno?.tipo 
-        },
-        direccion: { id: formData.direccion_id },
+        dueno: selectedDueno,
+        direccion: selectedDireccion,
       };
       await propiedadService.create(payload);
       onSuccess?.();
@@ -78,7 +76,7 @@ const PropiedadForm = ({ onSuccess }) => {
       <Typography variant="h6" color="primary" gutterBottom>
         Crear Propiedad
       </Typography>
-      
+
       <TextField
         select
         label="Dirección"
@@ -108,15 +106,15 @@ const PropiedadForm = ({ onSuccess }) => {
       >
         {duenos.map((dueno) => (
           <MenuItem key={dueno.id} value={dueno.id}>
-            {dueno.tipo === "FISICO" 
-              ? `${dueno.nombre} ${dueno.apellido}` 
+            {dueno.tipo === "FISICO"
+              ? `${dueno.nombre} ${dueno.apellido}`
               : dueno.razon_social || dueno.razonSocial}
           </MenuItem>
         ))}
       </TextField>
 
       <Typography variant="subtitle1" sx={{ mt: 2 }}>Detalles de la Propiedad</Typography>
-      
+
       <TextField
         label="Tipo de Propiedad"
         name="tipo_propiedad"
@@ -127,7 +125,7 @@ const PropiedadForm = ({ onSuccess }) => {
         margin="dense"
         placeholder="Ej: Casa, Departamento, Terreno"
       />
-      
+
       <TextField
         label="Dormitorios"
         name="dormitorios"

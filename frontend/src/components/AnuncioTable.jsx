@@ -33,7 +33,15 @@ const AnuncioTable = ({
               </TableCell>
               <TableCell>{row.tipo_anuncio}</TableCell>
               <TableCell>{row.estado}</TableCell>
-              <TableCell>{row.precio_anuncio}</TableCell>
+              <TableCell>
+                {row.precio_anuncio
+                  ? new Intl.NumberFormat("es-AR", {
+                    style: "currency",
+                    currency: "ARS",
+                    minimumFractionDigits: 2,
+                  }).format(row.precio_anuncio)
+                  : "-"}
+              </TableCell>
               <TableCell>{row.fecha_publicacion || "-"}</TableCell>
               <TableCell align="right">
                 <div className="table-actions">

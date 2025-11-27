@@ -22,7 +22,7 @@ const DuenoTable = ({ items = [], onEdit, onDelete }) => {
               <TableCell>{row.id}</TableCell>
               <TableCell>{row.tipo}</TableCell>
               <TableCell>
-                {row.nombre || row.razonSocial || row.razon_social || "-"}
+                {row.nombre ? `${row.nombre} ${row.apellido || ""}` : row.razonSocial || row.razon_social || "-"}
               </TableCell>
               <TableCell>{row.dni || row.cuit || "-"}</TableCell>
 
