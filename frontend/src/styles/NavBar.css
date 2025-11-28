@@ -1,11 +1,67 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 /* Barra superior con estilo moderno (glass/gradient) */
 .navbar {
   background: linear-gradient(90deg, rgba(21,101,192,0.95), rgba(59,130,246,0.95)) !important;
   box-shadow: 0 8px 24px rgba(21, 101, 192, 0.25) !important;
   backdrop-filter: saturate(1.2) blur(6px);
 }
-.navbar-toolbar { padding-top: 8px; padding-bottom: 16px; font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif; }
+
+.navbar-toolbar { 
+  padding-top: 8px; 
+  padding-bottom: 16px; 
+  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  /* Ocultar scrollbar pero mantener funcionalidad */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+
+.navbar-toolbar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.navbar-toolbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.navbar-toolbar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+}
+
+.navbar-toolbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.5);
+}
+
+/* Título del navbar */
+.navbar-title {
+  flex-shrink: 0;
+  white-space: nowrap;
+  margin-right: 16px;
+}
+
+/* Contenedor de enlaces con scroll horizontal */
+.navbar-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex: 1;
+  /* Scroll suave */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  /* Ocultar scrollbar pero mantener funcionalidad */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.navbar-links::-webkit-scrollbar {
+  display: none;
+}
 
 /* Enlaces del NavBar */
 .nav-link {
@@ -19,10 +75,22 @@
   text-decoration: none;
   color: #fff;
   font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.nav-link:hover { background: rgba(255,255,255,0.16); }
-.nav-link:active { transform: translateY(1px); }
-.nav-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.nav-link:hover { 
+  background: rgba(255,255,255,0.16); 
+}
+
+.nav-link:active { 
+  transform: translateY(1px); 
+}
+
+.nav-link:focus-visible { 
+  outline: 2px solid #fff; 
+  outline-offset: 2px; 
+}
 
 /* Subrayado animado y pill activo */
 .nav-link::after {
@@ -38,7 +106,46 @@
   transform: scaleX(0);
   transition: transform 200ms ease, opacity 200ms ease;
 }
-.nav-link.active { color: #fff; }
-.nav-link.active::after { opacity: 1; transform: scaleX(1); }
 
-/* Subtítulo deshabilitado: no se muestra bajo enlace activo */
+.nav-link.active { 
+  color: #fff; 
+}
+
+.nav-link.active::after { 
+  opacity: 1; 
+  transform: scaleX(1); 
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .navbar-toolbar {
+    padding-left: 8px;
+    padding-right: 8px;
+    
+  }
+  
+  .navbar-title {
+    font-size: 1.1rem;
+    margin-right: 8px;
+  }
+  
+  .navbar-links {
+    gap: 4px;
+  }
+  
+  .nav-link {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-title {
+    font-size: 1rem;
+  }
+  
+  .nav-link {
+    padding: 6px 8px;
+    font-size: 0.85rem;
+  }
+}

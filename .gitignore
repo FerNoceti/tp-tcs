@@ -46,3 +46,5 @@ sketch
 ### Maven/Java build outputs ###
 # Evitar subir artefactos generados por Maven/Gradle
 target/
+
+.idea

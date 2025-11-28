@@ -283,27 +283,6 @@ function Home() {
               </Typography>
               <Box sx={{ display: "flex", justifyContent: "center", gap: 2, flexWrap: "wrap" }}>
                 <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  startIcon={<AddIcon />}
-                  onClick={() => navigate("/anuncios/nuevo")}
-                  sx={{
-                    borderRadius: 3,
-                    px: 4,
-                    py: 1.5,
-                    fontWeight: "700",
-                    fontSize: "1rem",
-                    boxShadow: `0 8px 24px ${alpha(theme.palette.secondary.main, 0.4)}`,
-                    textTransform: "none",
-                    "&:hover": {
-                      boxShadow: `0 12px 32px ${alpha(theme.palette.secondary.main, 0.5)}`,
-                    }
-                  }}
-                >
-                  Crear Anuncio
-                </Button>
-                <Button
                   variant="outlined"
                   color="inherit"
                   size="large"

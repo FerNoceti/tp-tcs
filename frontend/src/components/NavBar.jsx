@@ -9,14 +9,16 @@ function NavBar() {
   return (
     <AppBar position="static" color="primary" className="navbar">
       <Toolbar className="navbar-toolbar">
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" className="navbar-title">
           Sistema Inmobiliario
         </Typography>
-        <NavLink to="/" className={linkClassName}>Inicio</NavLink>
-        <NavLink to="/anuncios" className={linkClassName}>Anuncios</NavLink>
-        <NavLink to="/propiedades" className={linkClassName}>Propiedades</NavLink>
-        <NavLink to="/duenos" className={linkClassName}>Dueños</NavLink>
-        <NavLink to="/direcciones" className={linkClassName}>Direcciones</NavLink>
+        <div className="navbar-links">
+          <NavLink to="/" className={linkClassName}>Inicio</NavLink>
+          <NavLink to="/anuncios" className={linkClassName}>Anuncios</NavLink>
+          <NavLink to="/propiedades" className={linkClassName}>Propiedades</NavLink>
+          <NavLink to="/duenos" className={linkClassName}>Dueños</NavLink>
+          <NavLink to="/direcciones" className={linkClassName}>Direcciones</NavLink>
+        </div>
       </Toolbar>
     </AppBar>
   );
